@@ -1,6 +1,21 @@
+let productTitle = sessionStorage.getItem("titre");
+console.log(productTitle);
+let productId = sessionStorage.getItem("id");
+console.log(productId);
+
 let urlActive = (new URL(document.location)).searchParams;
 let urlID = urlActive.get('id'); // la chaine de caractère après id=.
 //console.log(urlID);
+
+function getDataArray()
+{
+  return fetch("http://localhost:3000/api/furniture/" + urlID)//va chercher les informations sur le serveur
+  .then(function(httpBodyResponse)//puis lance la fonction suivante
+  {
+    const response = httpBodyResponse.json();//convertit le fichier en json (format array)
+    return response;//renvoie l'array en promise --> à retraiter avec then
+  })
+}
 
 function getDataArray()
 {
@@ -30,38 +45,18 @@ getDataArray()
       <div class="card-body">
         <h5 class="card-title">${response.name}</h5>
         <h4 class="card-text">${response.price}€</h4>
+        <label for="optionSelect">Selectionnez un vernis:</label>
+          <select name="varnish" id="optionSelect">
+            <option value="">--Choisissez une option--</option>
+
+          </select>
         <p class="card-text" >${response.description}</p>
-        <form action="thanksPage.html" method="get" class="text-center">
-          <label for="optionSelect">Selectionnez un vernis:</label>
-            <select name="varnish" id="optionSelect">
-              <option value="">--Choisissez une option--</option>
-            </select>
-          <label for="quantity">Combien de produits voulez-vous ?</label>
-            <select name="quantity" id="quantity">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          <input type="submit" class="btn btn-primary" value="input Ajouter ce produit et aller au panier">
-          <a href="cart.html?id=${response._id}" class="text-center"><button type="button" class="btn btn-primary"> hrefButton Ajouter ce produit et aller au panier</button></a>
-        </form>
+        <label>Nombre de produits à ajouter au panier <input type="number" name="" /> </label>
       </div>
+      <a href="cart.html" class="text-center"><button type="button" class="btn btn-primary">Ajouter ce produit et aller au panier</button></a>
     </div>
       `
     ;
-    //affiche les options dans la carte du produit
-    response.varnish.forEach(element => 
-    {
-      document.getElementById("optionSelect").innerHTML +=
-      `
-        <option label="${element}" value="${element}"></option>
-      `
-    });
-    //sessionStorage.setItem("numberOfProduct", )
-    sessionStorage.setItem("titre",response.name);
-    sessionStorage.setItem("texte",response.description);
-    sessionStorage.setItem("image",response.imageUrl);
-    sessionStorage.setItem("id", response._id);
   })
   .catch(function(error)//catch errors
   {

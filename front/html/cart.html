@@ -22,10 +22,10 @@
             <a class="nav-link" href="index.html">Accueil</a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" href="#">Nos produits</a>
+            <a class="nav-link" href="cart.html">Panier</a>
          </li>
       </ul>
-   </nav>
+    </nav>
 
     <header class="jumbotron">
       <h1 class="text-center">Bienvenue sur Oribois !</h1>
@@ -34,13 +34,26 @@
 
     <main class="container">
       <section class="row">
-        <article class="col d-flex flex-wrap justify-content-around align-items-center">
+        <article class="col d-flex flex-column justify-content-around align-items-center">
+          <h2>Voici le résumé de votre panier :</h2>
+          <div id="panier">
+
+          </div>
+          <h3>Pour commander votre panier, merci de compléter le formulaire ci-dessous :</h3>
+          <form action="thanksPage.html" method="post" class="text-center d-flex flex-column">
+            <label for="lastName">Nom : <input type="text" name="lastName" required></label>
+            <label for="firstName">Prénom : <input type="text" name="firstName" required></label>
+            <label for="adress">Adresse : <input type="text" name="adress" required></label>
+            <label for="city">Ville : <input type="text" name="city" required></label>
+            <label for="email">e-mail: <input type="email" name="email" required></label>
+            <input type="submit" value="Valider ma commande" class="btn btn-primary" id="submitButton">
+          </form>
           
         </article>
       </section>
     </main>
     
-    <footer class="bg-light">
+    <footer class="bg-light bottom">
       <div class="container">
         <div class="row">
           <div class="col">

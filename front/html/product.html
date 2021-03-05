@@ -22,10 +22,10 @@
             <a class="nav-link" href="index.html">Accueil</a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" href="#">Nos produits</a>
+            <a class="nav-link" href="cart.html">Panier</a>
          </li>
       </ul>
-   </nav>
+    </nav>
 
     <header class="jumbotron">
       <h1 class="text-center">Bienvenue sur Oribois !</h1>
@@ -34,12 +34,32 @@
     <main class="container">
       <section class="row">
         <article class="col d-flex flex-wrap justify-content-around align-items-center">
-
+          <div class="card col-5">
+            <img class=”card-img-top” src="" alt=”...”>
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <h4 class="card-text"></h4>
+              <p class="card-text" ></p>
+              <form action="thanksPage.html" method="get" class="text-center">
+                <label for="optionSelect">Selectionnez un vernis:</label>
+                  <select name="varnish" id="optionSelect">
+                    
+                  </select>
+                <label for="quantity">Combien de produits voulez-vous ?</label>
+                  <select name="quantity" id="quantity">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                <a href="cart.html" class="text-center" ><button type="button" id="submitButton" class="btn btn-primary">Ajouter au panier</button></a>
+              </form>
+            </div>
+          </div>
         </article>
       </section>
     </main>
-    
-    <footer class="bg-light">
+
+    <footer class="bg-light bottom">
       <div class="container">
         <div class="row">
           <div class="col">

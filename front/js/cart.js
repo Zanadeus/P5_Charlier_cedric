@@ -1,4 +1,4 @@
-let CartProductData = localStorage.getItem("CartProductData").split(',');
+let CartProductData = JSON.parse(localStorage.getItem("CartProductData"));
 console.log(CartProductData);
 let productTitle = CartProductData[0];
 let productPrice = CartProductData[1];
@@ -32,31 +32,61 @@ async function getValues(response)
 */
 
 //verification des inputs formulaire
-const formInput = document.querySelector("input");
 
-function regex()
+
+const formInput = document.querySelectorAll("input");
+
+function validationFormulaire(event)
 {
-  console.log(/^\w{3,}$/.test(formInput.value));
-  return /^\w{3,}$/.test(formInput.value);
+  console.log("test fonction validationFormulaire")
+  formInput.forEach(element => {
+    if(element.value != "")
+    {
+      // les données sont ok, on peut envoyer le formulaire
+      element.parentNode.querySelector("p").setAttribute("class", "d-none");
+      element.setAttribute("class", "border border-success");
+      return true;
+    }
+    else
+    {
+      event.preventDefault();
+      //alert(`Veuillez vérifier ce champs`);
+      element.parentNode.querySelector("p").setAttribute("class", "text-danger");
+      element.setAttribute("class", "border border-danger");
+      // et on indique de ne pas envoyer le formulaire
+      return false;
+    }
+  });
+
 }
 
-function isValid()
-{
-  if (regex() === true ) //problème sur la validation ou invalidation
-  {
-    console.log("formulaire valide");
-    document.getElementById("submitButton").disabled = false;
-  }
-  else if (regex() === false )
-  {
-    console.log("formulaire invalide");
-    document.getElementById("submitButton").disabled = true;
-  }
-}
-
-formInput.addEventListener('input', isValid);
+document.querySelector("form").addEventListener('submit', validationFormulaire) ;
 /*
-formInput.forEach(element => {
+const formInput = document.querySelectorAll("input");
+console.log(formInput);
+
+formInput.forEach(element => 
+{
+  function regex()
+  {
+    console.log(/^\w{3,}$/.test(element.value));
+    return /^\w{3,}$/.test(element.value);
+  }
+
+  function isValid()
+  {
+    if (regex() === true ) 
+    {
+      console.log("formulaire valide");
+      document.getElementById("submitButton").disabled = false;
+    }
+    else if (regex() === false)
+    {
+      console.log("formulaire invalide");
+      document.getElementById("submitButton").disabled = true;
+    }
+  }
+
   element.addEventListener('input', isValid);
 });
 */

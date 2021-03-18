@@ -2,6 +2,8 @@ let urlActive = (new URL(document.location)).searchParams;
 let urlID = urlActive.get('id'); // la chaine de caractère après id=.
 //console.log(urlID);
 let arrayStorage = [];
+let articleName = 0;
+let articlePrice = 0;
 
 function getDataArray()//obtenir le json du produit
 {
@@ -29,7 +31,8 @@ getDataArray()
     });
 
     //enregistrer les valeurs pour les pages suivantes
-    arrayStorage.push(response.name, response.price/100);
+    articleName = response.name;
+    articlePrice = response.price/100;
     document.getElementById("submitButton").addEventListener("click", getValues);
   })
   .catch(function(error)//catch errors
@@ -37,11 +40,11 @@ getDataArray()
     alert(error);
   })
 
-  async function getValues(response)
+  function getValues()
   {
     let vernis = document.getElementById("optionSelect").value;
     let productQuantity = document.getElementById("quantity").value;
-    arrayStorage.push(vernis, productQuantity);//ajoute les valeurs au tableau existant
+    arrayStorage.push(articleName, articlePrice, vernis, productQuantity);//ajoute les valeurs au tableau existant
     console.log(arrayStorage);//vérification de l'array
-    localStorage.setItem("CartProductData", arrayStorage);//enregistre le tableau
+    localStorage.setItem("CartProductData", JSON.stringify(arrayStorage));//enregistre le tableau
   }

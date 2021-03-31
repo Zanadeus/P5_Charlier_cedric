@@ -1,15 +1,21 @@
 let urlActive = (new URL(document.location)).searchParams;
 let urlID = urlActive.get('id'); // la chaine de caractère après id=.
 //console.log(urlID);
-let arrayStorage = [];
+
 let articleName = 0;
 let articlePrice = 0;
+
+let cartePanier = document.querySelector(".cart") ;
+let cartProductData = JSON.parse(localStorage.getItem("CartProductData"));
+let arrayStorage = cartProductData;
+
 
 function getDataArray()//obtenir le json du produit
 {
   return fetch("http://localhost:3000/api/furniture/" + urlID)//va chercher les informations sur le serveur
   .then(function(httpBodyResponse)//puis lance la fonction suivante
   {
+
     const response = httpBodyResponse.json();//convertit le fichier en json (format array)
     return response;//renvoie l'array en promise --> à retraiter avec then
   })
@@ -33,18 +39,40 @@ getDataArray()
     //enregistrer les valeurs pour les pages suivantes
     articleName = response.name;
     articlePrice = response.price/100;
-    document.getElementById("submitButton").addEventListener("click", getValues);
+
+    document.getElementById("addCartButton").addEventListener("click", getValues);
+    
+    function getValues()
+    {
+      let vernis = document.getElementById("optionSelect").value;
+      let productQuantity = document.getElementById("quantity").value;
+      //arrayStorage.push(articleName, articlePrice, vernis, productQuantity);//ajoute les valeurs au tableau existant
+      //console.log(arrayStorage);//vérification de l'array
+      let arrayProduct = [articleName, articlePrice, vernis, productQuantity];
+      arrayStorage.push(arrayProduct);
+      localStorage.setItem("CartProductData", JSON.stringify(arrayStorage));//enregistre le tableau
+      console.log("article ajouté");
+
+      //cartePanier.innerHTML = cartProductData;
+      cartePanier.insertAdjacentHTML("beforeend", 
+        `
+        <div class="card col">
+          <div class="card-body">
+            <h5 class="card-title">${element[0]}</h5>
+            <p> 
+              Option choisie : ${element[2]} <br/>
+              Quantité : ${element[3]} <br/>
+              Prix total : ${element[1] * element[3]} €
+            </p>
+          </div>
+        </div>
+        `
+      );
+    }
   })
   .catch(function(error)//catch errors
   {
     alert(error);
   })
 
-  function getValues()
-  {
-    let vernis = document.getElementById("optionSelect").value;
-    let productQuantity = document.getElementById("quantity").value;
-    arrayStorage.push(articleName, articlePrice, vernis, productQuantity);//ajoute les valeurs au tableau existant
-    console.log(arrayStorage);//vérification de l'array
-    localStorage.setItem("CartProductData", JSON.stringify(arrayStorage));//enregistre le tableau
-  }
+

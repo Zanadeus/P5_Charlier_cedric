@@ -1,25 +1,32 @@
 let CartProductData = JSON.parse(localStorage.getItem("CartProductData"));
 console.log(CartProductData);
-let productTitle = CartProductData[0];
-let productPrice = CartProductData[1];
-let productVarnish = CartProductData[2];
-let productQuantity = CartProductData[3];
 
 //afficher la carte du produit
-document.getElementById("panier").innerHTML += 
-      `
-        <div class="card col">
-          <div class="card-body">
-            <h5 class="card-title">${productTitle}</h5>
-            <p> 
-              Option choisie : ${productVarnish} <br/>
-              Quantité : ${productQuantity} <br/>
-              Prix total : ${productPrice * productQuantity} €
-            </p>
+if (CartProductData == null)
+{
+  document.getElementById("panier").innerHTML += "<p>Votre panier est vide</p>"
+}
+else
+{
+  CartProductData.forEach(element => {
+    document.getElementById("panier").innerHTML += 
+        `
+          <div class="card col">
+            <div class="card-body">
+              <h5 class="card-title">${element[0]}</h5>
+              <p> 
+                Option choisie : ${element[2]} <br/>
+                Quantité : ${element[3]} <br/>
+                Prix total : ${element[1] * element[3]} €
+              </p>
+            </div>
           </div>
-        </div>
-      `
-    ;
+        `
+      ;
+  });
+}
+
+
 
 // retenir les inputs du formulaire
 /*
@@ -32,10 +39,8 @@ async function getValues(response)
 */
 
 //verification des inputs formulaire
-
-
 const formInput = document.querySelectorAll("input");
-
+let formData = [];
 function validationFormulaire(event)
 {
   console.log("test fonction validationFormulaire")
@@ -45,7 +50,10 @@ function validationFormulaire(event)
       // les données sont ok, on peut envoyer le formulaire
       element.parentNode.querySelector("p").setAttribute("class", "d-none");
       element.setAttribute("class", "border border-success");
-      return true;
+      //récupération des données formulaire
+      formData.push(element.value);
+      //pour le test de récupération de données
+      event.preventDefault();
     }
     else
     {
@@ -54,39 +62,9 @@ function validationFormulaire(event)
       element.parentNode.querySelector("p").setAttribute("class", "text-danger");
       element.setAttribute("class", "border border-danger");
       // et on indique de ne pas envoyer le formulaire
-      return false;
     }
   });
-
+  console.log(formData);
 }
 
 document.querySelector("form").addEventListener('submit', validationFormulaire) ;
-/*
-const formInput = document.querySelectorAll("input");
-console.log(formInput);
-
-formInput.forEach(element => 
-{
-  function regex()
-  {
-    console.log(/^\w{3,}$/.test(element.value));
-    return /^\w{3,}$/.test(element.value);
-  }
-
-  function isValid()
-  {
-    if (regex() === true ) 
-    {
-      console.log("formulaire valide");
-      document.getElementById("submitButton").disabled = false;
-    }
-    else if (regex() === false)
-    {
-      console.log("formulaire invalide");
-      document.getElementById("submitButton").disabled = true;
-    }
-  }
-
-  element.addEventListener('input', isValid);
-});
-*/

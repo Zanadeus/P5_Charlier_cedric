@@ -1,5 +1,7 @@
 function getDataArray()
 {
+  //return fetch("../furniture.json")
+  //return fetch("https://ab-p5-api.herokuapp.com/api/furniture")
   return fetch("http://localhost:3000/api/furniture")//va chercher les informations sur le serveur
   .then(function(httpBodyResponse)//puis lance la fonction suivante
   {

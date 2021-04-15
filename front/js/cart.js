@@ -1,7 +1,7 @@
 let CartProductData = JSON.parse(localStorage.getItem("CartProductData"));
 console.log(CartProductData);
 
-//afficher la carte du produit
+//afficher les produits du panier
 if (CartProductData == null)
 {
   document.getElementById("panier").innerHTML += "<p>Votre panier est vide</p>"
@@ -40,22 +40,38 @@ async function getValues(response)
 
 //verification des inputs formulaire
 const formInput = document.querySelectorAll("input");
-let formData = [];
+const contactObject = {};
+
+function regexMail()
+{
+  console.log(/^.+[@]+[\w]+[.]+[\w]+$/.test(codeInput.value));
+  return /^.+[@]+[\w]+[.]+[\w]+$/.test(codeInput.value);
+}
+
 function validationFormulaire(event)
 {
   console.log("test fonction validationFormulaire")
   formInput.forEach(element => {
-    if(element.value != "")
+    /*
+      if(element.parentNode.getAttribute("for") = "email") //vérification du champ email
+      {
+        if(regexMail === true)
+        {
+          console.log("email validé !");
+          event.preventDefault();
+        }
+    */
+    if(element.value != "")//vérification du champ non vide
     {
       // les données sont ok, on peut envoyer le formulaire
       element.parentNode.querySelector("p").setAttribute("class", "d-none");
       element.setAttribute("class", "border border-success");
-      //récupération des données formulaire
-      formData.push(element.value);
+      //récupération des données formulaire de contact
+      contactObject[element.parentNode.getAttribute("for")] = element.value;
       //pour le test de récupération de données
       event.preventDefault();
     }
-    else
+    else//alerte de la mauvaise complétion du champ et annulation de l'envoi formulaire
     {
       event.preventDefault();
       //alert(`Veuillez vérifier ce champs`);
@@ -64,7 +80,7 @@ function validationFormulaire(event)
       // et on indique de ne pas envoyer le formulaire
     }
   });
-  console.log(formData);
+  console.log(contactObject);
 }
 
 document.querySelector("form").addEventListener('submit', validationFormulaire) ;

@@ -6,12 +6,19 @@ let articleName = 0;
 let articlePrice = 0;
 
 let cartePanier = document.querySelector(".cart") ;
-let cartProductData = JSON.parse(localStorage.getItem("CartProductData"));
+
+let cartProductData = [];
+if (JSON.parse(localStorage.getItem("CartProductData")) !== null )
+{
+  cartProductData = JSON.parse(localStorage.getItem("CartProductData"));
+}
+
 let arrayStorage = cartProductData;
 
 
 function getDataArray()//obtenir le json du produit
 {
+  //return fetch("https://ab-p5-api.herokuapp.com/api/furniture/" + urlID)
   return fetch("http://localhost:3000/api/furniture/" + urlID)//va chercher les informations sur le serveur
   .then(function(httpBodyResponse)//puis lance la fonction suivante
   {
@@ -46,8 +53,10 @@ getDataArray()
     {
       let vernis = document.getElementById("optionSelect").value;
       let productQuantity = document.getElementById("quantity").value;
-      //arrayStorage.push(articleName, articlePrice, vernis, productQuantity);//ajoute les valeurs au tableau existant
-      //console.log(arrayStorage);//vérification de l'array
+      /*
+      arrayStorage.push(articleName, articlePrice, vernis, productQuantity);//ajoute les valeurs au tableau existant
+      console.log(arrayStorage);//vérification de l'array
+      */
       let arrayProduct = [articleName, articlePrice, vernis, productQuantity];
       arrayStorage.push(arrayProduct);
       localStorage.setItem("CartProductData", JSON.stringify(arrayStorage));//enregistre le tableau

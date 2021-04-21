@@ -1,23 +1,24 @@
-let CartProductData = JSON.parse(localStorage.getItem("CartProductData"));
-console.log(CartProductData);
+//récupération du panier dans le localStorage
+let cartProductData = JSON.parse(localStorage.getItem("cartLists"));
+console.log(cartProductData);
 
 //afficher les produits du panier
-if (CartProductData == null)
+if (cartProductData == null)
 {
   document.getElementById("panier").innerHTML += "<p>Votre panier est vide</p>"
 }
 else
 {
-  CartProductData.forEach(element => {
+  cartProductData.forEach(element => {
     document.getElementById("panier").innerHTML += 
         `
           <div class="card col">
             <div class="card-body">
-              <h5 class="card-title">${element[0]}</h5>
+              <h5 class="card-title">${element.productName}</h5>
               <p> 
-                Option choisie : ${element[2]} <br/>
-                Quantité : ${element[3]} <br/>
-                Prix total : ${element[1] * element[3]} €
+                Option choisie : ${element.varnish} <br/>
+                Quantité : ${element.quantity} <br/>
+                Prix total : ${element.price * element.quantity} €
               </p>
             </div>
           </div>
@@ -25,18 +26,6 @@ else
       ;
   });
 }
-
-
-
-// retenir les inputs du formulaire
-/*
-document.getElementById("submitButton").addEventListener("click", getValues);
-async function getValues(response)
-{
-  let test = document.querySelector("form").value;
-  localStorage.setItem("test",test);
-}
-*/
 
 //verification des inputs formulaire
 const formInput = document.querySelectorAll("input");
@@ -52,15 +41,6 @@ function validationFormulaire(event)
 {
   console.log("test fonction validationFormulaire")
   formInput.forEach(element => {
-    /*
-      if(element.parentNode.getAttribute("for") = "email") //vérification du champ email
-      {
-        if(regexMail === true)
-        {
-          console.log("email validé !");
-          event.preventDefault();
-        }
-    */
     if(element.value != "")//vérification du champ non vide
     {
       // les données sont ok, on peut envoyer le formulaire
@@ -73,11 +53,11 @@ function validationFormulaire(event)
     }
     else//alerte de la mauvaise complétion du champ et annulation de l'envoi formulaire
     {
+      //on indique de ne pas envoyer le formulaire
       event.preventDefault();
-      //alert(`Veuillez vérifier ce champs`);
-      element.parentNode.querySelector("p").setAttribute("class", "text-danger");
+      //element.parentNode.querySelector("p").setAttribute("class", "text-danger");
+      element.insertAdjacentHTML("beforebegin", '<p class="text-danger" >Veuillez vérifier ce champ :</p>')
       element.setAttribute("class", "border border-danger");
-      // et on indique de ne pas envoyer le formulaire
     }
   });
   console.log(contactObject);

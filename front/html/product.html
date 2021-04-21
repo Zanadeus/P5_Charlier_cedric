@@ -32,37 +32,32 @@
     </header>
 
     <main class="container">
-      <section class="row">
+      <section class="row d-flex flex-column">
+        <h2 class="text-center">Produit sélectionné :</h2>
         <article class="col d-flex flex-wrap justify-content-around align-items-center">
-          <div class="card col-5">
-            <img class=”card-img-top” src="" alt=”...”>
-            <div class="card-body">
-              <h5 class="card-title"></h5>
-              <h4 class="card-text"></h4>
-              <p class="card-text" ></p>
+          <div class="card col-md-9">
+            <!-- Injection du html, affichage du produit -->
               <form action="thanksPage.html" method="get" class="text-center">
-                <label for="optionSelect">Selectionnez un vernis:</label>
+                <label for="optionSelect">Selectionnez un vernis:
                   <select name="varnish" id="optionSelect">
-                    
+                    <!-- Insertion des options via JS-->
                   </select>
-                <label for="quantity">Combien de produits voulez-vous ?</label>
+                </label>
+                <label for="quantity">Combien de produits voulez-vous ?
                   <select name="quantity" id="quantity">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                   </select>
-                <button type="button" id="addCartButton" class="btn btn-primary">Ajouter au panier</button>
-                <a href="cart.html" type="button" class="text-center" class="btn btn-primary">Voir le panier</a>
+                </label>
+                <div>
+                  <button type="button" id="addCartButton" class="btn btn-primary">Ajouter au panier</button>
+                  <a href="cart.html" class="btn btn-primary text-white">Voir le panier</a>
+                </div>
               </form>
-            </div>
+            <!-- Injection du div de fin de card-body, affichage produit-->
           </div>
-          <div class="card col-5">
 
-            <h2>Mon panier</h2>
-            <div class="cart">
-              
-            </div>
-          </div>
         </article>
       </section>
     </main>
@@ -88,7 +83,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../js/product.js"></script>
+    <script src="../js/product.js"></script>
   </body>
 </html>
 

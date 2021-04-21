@@ -1,41 +1,45 @@
-let urlActive = (new URL(document.location)).searchParams;
-let urlID = urlActive.get('id'); // la chaine de caractère après id=.
-//console.log(urlID);
+//obtenir l'ID du produit dans l'URL de la page
+let urlActive = (new URL(document.location)).searchParams;//sélectionne l'url de la page
+let urlID = urlActive.get('id'); // dans l'url de la page, obtient la chaine de caractère après id=.
 
+//definition des variables qui seront intégrées dans l'OBJECT objectProduct
 let articleName = 0;
 let articlePrice = 0;
+let articleImg = 0;
+let articleVarnish = 0;
+let articleQuantity = 0;
 
-let cartePanier = document.querySelector(".cart") ;
-
+//récupérer les infos panier dans le localStorage
 let cartProductData = [];
-if (JSON.parse(localStorage.getItem("CartProductData")) !== null )
+if (JSON.parse(localStorage.getItem("cartLists")) !== null )
 {
-  cartProductData = JSON.parse(localStorage.getItem("CartProductData"));
+  cartProductData = JSON.parse(localStorage.getItem("cartLists"));
 }
 
-let arrayStorage = cartProductData;
-
-
-function getDataArray()//obtenir le json du produit
+function getDataArray()//fonction appel des données serveur
 {
-  //return fetch("https://ab-p5-api.herokuapp.com/api/furniture/" + urlID)
-  return fetch("http://localhost:3000/api/furniture/" + urlID)//va chercher les informations sur le serveur
+  return fetch("http://localhost:3000/api/furniture/" + urlID)//va chercher les informations sur le serveur pour l'ID produit
   .then(function(httpBodyResponse)//puis lance la fonction suivante
   {
-
     const response = httpBodyResponse.json();//convertit le fichier en json (format array)
     return response;//renvoie l'array en promise --> à retraiter avec then
   })
 }
 
-getDataArray()
+getDataArray()//fonction appel des données serveur
   .then(function(response)//puis traite l'array
   {
     //affiche le produit dans la page
-    document.querySelector("article").querySelector("h5").innerHTML = `${response.name}` ;//affiche le titre
-    document.querySelector("article").querySelector("h4").innerHTML = `${response.price/100} €` ;//affiche le prix
-    document.querySelector("article").querySelector("p").innerHTML = `${response.description}` ;//affiche la description
-    document.querySelector("article").querySelector("img").setAttribute("src", response.imageUrl);//affiche l'image
+    document.querySelector("form").insertAdjacentHTML("beforebegin",
+    `
+    <img class=”card-img-top” src="${response.imageUrl}" alt=”image du produit sélectionné, description imprévisible”>
+    <div class="card-body">
+      <h4 class="card-title">${response.name}</h4>
+      <h5 class="card-text">${response.price/100} €</h5>
+      <p class="card-text" >${response.description}</p>
+    `
+    );
+    document.querySelector("form").insertAdjacentHTML("afterend","</div>");
 
     //affiche les options dans la carte du produit
     response.varnish.forEach(element => 
@@ -43,40 +47,34 @@ getDataArray()
       document.getElementById("optionSelect").innerHTML += `<option label="${element}" value="${element}"></option>`
     });
 
-    //enregistrer les valeurs pour les pages suivantes
+    //modification des variables pour l'objet objectProduct
     articleName = response.name;
     articlePrice = response.price/100;
+    articleImg = response.imageUrl;
 
+    //Enregistrement des informations au clic
     document.getElementById("addCartButton").addEventListener("click", getValues);
     
+    //fonction pour obtenir et conserver les valeurs du produit à ajouter au panier
     function getValues()
     {
-      let vernis = document.getElementById("optionSelect").value;
-      let productQuantity = document.getElementById("quantity").value;
-      /*
-      arrayStorage.push(articleName, articlePrice, vernis, productQuantity);//ajoute les valeurs au tableau existant
-      console.log(arrayStorage);//vérification de l'array
-      */
-      let arrayProduct = [articleName, articlePrice, vernis, productQuantity];
-      arrayStorage.push(arrayProduct);
-      localStorage.setItem("CartProductData", JSON.stringify(arrayStorage));//enregistre le tableau
-      console.log("article ajouté");
+      //modification des variables pour l'objet objectProduct
+      articleVarnish = document.getElementById("optionSelect").value;
+      articleQuantity = document.getElementById("quantity").value;
 
-      //cartePanier.innerHTML = cartProductData;
-      cartePanier.insertAdjacentHTML("beforeend", 
-        `
-        <div class="card col">
-          <div class="card-body">
-            <h5 class="card-title">${element[0]}</h5>
-            <p> 
-              Option choisie : ${element[2]} <br/>
-              Quantité : ${element[3]} <br/>
-              Prix total : ${element[1] * element[3]} €
-            </p>
-          </div>
-        </div>
-        `
-      );
+      //creation d'un objet objectProduct à ajouter dans l'array cartProductData
+      let objectProduct = 
+      {
+        img: articleImg,
+        productName: articleName,
+        price: articlePrice,
+        varnish: articleVarnish,
+        quantity: articleQuantity
+      };
+      //enregistrement de l'objet dans l'array, dans le localStorage
+      cartProductData.push(objectProduct);//ajoute l'objet objectProduct sélectionné dans l'array cartProductData
+      localStorage.setItem("cartLists", JSON.stringify(cartProductData));//enregistre le tableau cartProductData dans le localStorage
+      alert("article ajouté");//affiche le bon fonctionnement de la fonction
     }
   })
   .catch(function(error)//catch errors

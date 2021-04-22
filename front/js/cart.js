@@ -31,12 +31,6 @@ else
 const formInput = document.querySelectorAll("input");//selection de tous les inputs a vérifier
 const contactObject = {};//objet contact recevant les informations de contact
 
-function regexMail()
-{
-  console.log(/^.+[@]+[\w]+[.]+[\w]+$/.test(codeInput.value));
-  return /^.+[@]+[\w]+[.]+[\w]+$/.test(codeInput.value);
-}
-
 function validationFormulaire(event)
 {
   console.log("test fonction validationFormulaire")
@@ -47,19 +41,40 @@ function validationFormulaire(event)
       if(element.parentNode.querySelector("p") == null)//on vérifie qu'une phrase d'avertissement pour le champ n'existe pas
       {
         element.insertAdjacentHTML("beforebegin", '<p class="text-danger" >Veuillez vérifier ce champ :</p>')
+        element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
       }
-      element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
     }
-    else//Annulation des alertes de mauvais complétion du champ existant et récupération des données
+    else//vérification du champ mail + validation du champ existant + récupération des données
     {
       //pour le test de récupération de données
       event.preventDefault();
 
+      //test regex pour email :
+      if (element.parentNode.getAttribute("for") === "email")//on vérifie que le label de l'input est "email"
+      {
+        console.log("vérification champ email");
+        console.log(/^.+[@]+.+[.]+[\w]+$/.test(element.value));
+        if ((/^.+[@]+.+[.]+[\w]+$/.test(element.value)) === false)//si l'input ne correspond pas à la forme d'un email "a@b.c"
+        {
+          console.log("l'email est invalide");
+          event.preventDefault();
+          if(element.parentNode.querySelector("p") == null)//on vérifie qu'une phrase d'avertissement pour le champ n'existe pas
+          {
+            element.insertAdjacentHTML("beforebegin", '<p class="text-danger" >Veuillez vérifier ce champ :</p>')
+            element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
+          }
+          return
+        }
+        else{}
+      }
+
+      //validation du champ
       if(element.parentNode.querySelector("p") != null)//On vérifie si le champ a déja été validé vide
       {
         element.parentNode.querySelector("p").remove();//On retire le texte demandant de vérifier le champ
       }
       element.setAttribute("class", "border border-success");//On met la bordure de couleur verte
+
       //récupération des données formulaire de contact
       contactObject[element.parentNode.getAttribute("for")] = element.value;
     }

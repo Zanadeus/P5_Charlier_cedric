@@ -27,9 +27,9 @@ else
   });
 }
 
-//verification des inputs formulaire
-const formInput = document.querySelectorAll("input");
-const contactObject = {};
+//Déclaration des variables
+const formInput = document.querySelectorAll("input");//selection de tous les inputs a vérifier
+const contactObject = {};//objet contact recevant les informations de contact
 
 function regexMail()
 {
@@ -41,23 +41,27 @@ function validationFormulaire(event)
 {
   console.log("test fonction validationFormulaire")
   formInput.forEach(element => {
-    if(element.value != "")//vérification du champ non vide
+    if(element.value == "")//annulation de l'envoi formulaire et alerte de la mauvaise complétion du champ
     {
-      // les données sont ok, on peut envoyer le formulaire
-      element.parentNode.querySelector("p").setAttribute("class", "d-none");
-      element.setAttribute("class", "border border-success");
-      //récupération des données formulaire de contact
-      contactObject[element.parentNode.getAttribute("for")] = element.value;
+      event.preventDefault();
+      if(element.parentNode.querySelector("p") == null)//on vérifie qu'une phrase d'avertissement pour le champ n'existe pas
+      {
+        element.insertAdjacentHTML("beforebegin", '<p class="text-danger" >Veuillez vérifier ce champ :</p>')
+      }
+      element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
+    }
+    else//Annulation des alertes de mauvais complétion du champ existant et récupération des données
+    {
       //pour le test de récupération de données
       event.preventDefault();
-    }
-    else//alerte de la mauvaise complétion du champ et annulation de l'envoi formulaire
-    {
-      //on indique de ne pas envoyer le formulaire
-      event.preventDefault();
-      //element.parentNode.querySelector("p").setAttribute("class", "text-danger");
-      element.insertAdjacentHTML("beforebegin", '<p class="text-danger" >Veuillez vérifier ce champ :</p>')
-      element.setAttribute("class", "border border-danger");
+
+      if(element.parentNode.querySelector("p") != null)//On vérifie si le champ a déja été validé vide
+      {
+        element.parentNode.querySelector("p").remove();//On retire le texte demandant de vérifier le champ
+      }
+      element.setAttribute("class", "border border-success");//On met la bordure de couleur verte
+      //récupération des données formulaire de contact
+      contactObject[element.parentNode.getAttribute("for")] = element.value;
     }
   });
   console.log(contactObject);

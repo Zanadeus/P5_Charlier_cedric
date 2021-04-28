@@ -9,35 +9,38 @@ console.log(products);
 document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
 document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
 
+//Déclaration des variables
+const formInput = document.querySelectorAll("input");//selection de tous les inputs a vérifier
+const contact = {};//objet contact recevant les informations de contact
+let cartPrice = 0;
 
-//afficher les produits du panier
+//afficher les produits du panier + prix total panier
 if (products == null)
 {
   document.getElementById("panier").innerHTML += "<p>Votre panier est vide</p>"
 }
 else
 {
-  products.forEach(element => {
+  products.forEach(element => 
+  {
+    cartPrice = cartPrice + element.price * element.quantity;
     document.getElementById("panier").innerHTML += 
-        `
-          <div class="card col">
-            <div class="card-body">
-              <h5 class="card-title">${element.productName}</h5>
-              <p> 
-                Option choisie : ${element.varnish} <br/>
-                Quantité : ${element.quantity} <br/>
-                Prix : ${element.price * element.quantity} €
-              </p>
-            </div>
+      `
+        <div class="card col">
+          <div class="card-body">
+            <h5 class="card-title">${element.productName}</h5>
+            <p> 
+              Option choisie : ${element.varnish} <br/>
+              Quantité : ${element.quantity} <br/>
+              Prix : ${element.price * element.quantity} €
+            </p>
           </div>
-        `
-      ;
+        </div>
+      `
+    ;
   });
+  document.getElementById("panier").insertAdjacentHTML("afterbegin",`Le prix total de votre panier est de ${cartPrice}€`)
 }
-
-//Déclaration des variables
-const formInput = document.querySelectorAll("input");//selection de tous les inputs a vérifier
-const contact = {};//objet contact recevant les informations de contact
 
 function getDataArray()//fonction appel des données serveur
 {

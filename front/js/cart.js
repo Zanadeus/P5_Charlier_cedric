@@ -39,10 +39,10 @@ else
       `
     ;
   });
-  document.getElementById("panier").insertAdjacentHTML("afterbegin",`Le prix total de votre panier est de ${cartPrice}€`)
+  document.getElementById("panier").insertAdjacentHTML("beforebegin",`<h4>Le prix total de votre panier est de ${cartPrice}€</h4>`)
 }
 
-function getDataArray()//fonction appel des données serveur
+function getDataArray()//fonction appel des données serveur -- je veux récupérer les données renvoyées par le serveur après requete post
 {
   return fetch("http://localhost:3000/api/furniture/order")//va chercher les informations sur le serveur
   .then(function(httpBodyResponse)//puis lance la fonction suivante
@@ -52,11 +52,11 @@ function getDataArray()//fonction appel des données serveur
   })
   .then(function(response)//puis traite l'array
   {
-    console.log(response);
+    console.log(response);//test -- vérification de la réponse obtenue
   })
 }
 
-function cartBilling()
+function cartBilling()//fonction requete post
 {
   fetch ("http://localhost:3000/api/furniture/order", 
   {
@@ -70,9 +70,8 @@ function cartBilling()
   })
 }
 
-function validationFormulaire(event)
+function validationFormulaire(event)//fonction de vérification du formulaire, récupération et envoi des données contact et products au serveur
 {
-  console.log("test fonction validationFormulaire")
   formInput.forEach(element => 
   {
     function badInput()
@@ -95,7 +94,7 @@ function validationFormulaire(event)
       //test regex pour email :
       if (element.parentNode.getAttribute("for") === "email")//on vérifie que le label de l'input est "email"
       {
-        console.log(/^.+[@]+.+[.]+[\w]+$/.test(element.value));
+        console.log(/^.+[@]+.+[.]+[\w]+$/.test(element.value));//test -- vérification de la valeur obtenue
         if ((/^.+[@]+.+[.]+[\w]+$/.test(element.value)) === false)//si l'input ne correspond pas à la forme d'un email "a@b.c"
         {
           event.preventDefault();
@@ -116,7 +115,7 @@ function validationFormulaire(event)
       contact[element.parentNode.getAttribute("for")] = element.value;
     }
   });
-  console.log(contact);
+  console.log(contact);//test -- vérification de l'objet qui sera envoyé
   cartBilling();
 }
 

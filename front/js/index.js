@@ -11,10 +11,8 @@ function getDataArray()//fonction appel des données serveur
 getDataArray()//fonction appel des données serveur
 .then(function(response)//puis traite l'array
 {
-  //console.log(response);//affiche l'array
   response.forEach(product => 
   {
-    //console.log(product);
     document.querySelector("article").innerHTML += 
       `
         <a href="product.html?id=${product._id}" class="card col-md-5">

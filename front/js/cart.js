@@ -1,15 +1,23 @@
-//récupération du panier dans le localStorage
-let cartProductData = JSON.parse(localStorage.getItem("cartLists"));
-console.log(cartProductData);
+//récupérer les infos panier dans le localStorage
+let products = [];
+if (JSON.parse(localStorage.getItem("cartLists")) !== null )
+{
+  products = JSON.parse(localStorage.getItem("cartLists"));
+}
+console.log(products);
+//afficher le nombre d'éléments dans le panier sur barre de navigation
+document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
+document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
+
 
 //afficher les produits du panier
-if (cartProductData == null)
+if (products == null)
 {
   document.getElementById("panier").innerHTML += "<p>Votre panier est vide</p>"
 }
 else
 {
-  cartProductData.forEach(element => {
+  products.forEach(element => {
     document.getElementById("panier").innerHTML += 
         `
           <div class="card col">
@@ -18,7 +26,7 @@ else
               <p> 
                 Option choisie : ${element.varnish} <br/>
                 Quantité : ${element.quantity} <br/>
-                Prix total : ${element.price * element.quantity} €
+                Prix : ${element.price * element.quantity} €
               </p>
             </div>
           </div>
@@ -29,40 +37,66 @@ else
 
 //Déclaration des variables
 const formInput = document.querySelectorAll("input");//selection de tous les inputs a vérifier
-const contactObject = {};//objet contact recevant les informations de contact
+const contact = {};//objet contact recevant les informations de contact
+
+function getDataArray()//fonction appel des données serveur
+{
+  return fetch("http://localhost:3000/api/furniture/order")//va chercher les informations sur le serveur
+  .then(function(httpBodyResponse)//puis lance la fonction suivante
+  {
+    const response = httpBodyResponse.json();//convertit le fichier en json (format array)
+    return response;//renvoie l'array en promise --> à retraiter avec then
+  })
+  .then(function(response)//puis traite l'array
+  {
+    console.log(response);
+  })
+}
+
+function cartBilling()
+{
+  fetch ("http://localhost:3000/api/furniture/order", 
+  {
+    method: "POST",
+    body: contact, products
+  })
+  getDataArray()//fonction appel des données serveur
+  .catch(function(error)//catch errors
+  {
+    alert(error);
+  })
+}
 
 function validationFormulaire(event)
 {
   console.log("test fonction validationFormulaire")
-  formInput.forEach(element => {
-    if(element.value == "")//annulation de l'envoi formulaire et alerte de la mauvaise complétion du champ
+  formInput.forEach(element => 
+  {
+    function badInput()
     {
-      event.preventDefault();
       if(element.parentNode.querySelector("p") == null)//on vérifie qu'une phrase d'avertissement pour le champ n'existe pas
       {
         element.insertAdjacentHTML("beforebegin", '<p class="text-danger" >Veuillez vérifier ce champ :</p>')
         element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
       }
     }
+    if(element.value == "")//annulation de l'envoi formulaire et alerte de la mauvaise complétion du champ
+    {
+      event.preventDefault();
+      badInput();
+    }
     else//vérification du champ mail + validation du champ existant + récupération des données
     {
-      //pour le test de récupération de données
       event.preventDefault();
 
       //test regex pour email :
       if (element.parentNode.getAttribute("for") === "email")//on vérifie que le label de l'input est "email"
       {
-        console.log("vérification champ email");
         console.log(/^.+[@]+.+[.]+[\w]+$/.test(element.value));
         if ((/^.+[@]+.+[.]+[\w]+$/.test(element.value)) === false)//si l'input ne correspond pas à la forme d'un email "a@b.c"
         {
-          console.log("l'email est invalide");
           event.preventDefault();
-          if(element.parentNode.querySelector("p") == null)//on vérifie qu'une phrase d'avertissement pour le champ n'existe pas
-          {
-            element.insertAdjacentHTML("beforebegin", '<p class="text-danger" >Veuillez vérifier ce champ :</p>')
-            element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
-          }
+          badInput();
           return
         }
         else{}
@@ -76,10 +110,11 @@ function validationFormulaire(event)
       element.setAttribute("class", "border border-success");//On met la bordure de couleur verte
 
       //récupération des données formulaire de contact
-      contactObject[element.parentNode.getAttribute("for")] = element.value;
+      contact[element.parentNode.getAttribute("for")] = element.value;
     }
   });
-  console.log(contactObject);
+  console.log(contact);
+  cartBilling();
 }
 
 document.querySelector("form").addEventListener('submit', validationFormulaire) ;

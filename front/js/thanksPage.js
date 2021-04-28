@@ -1,14 +1,14 @@
-let CartProductData = localStorage.getItem("CartProductData").split(',');
-console.log(CartProductData);
-let productTitle = CartProductData[0];
-let productPrice = CartProductData[1];
-let productVarnish = CartProductData[2];
-let productQuantity = CartProductData[3];
+let products = JSON.parse(localStorage.getItem("cartLists"));
+console.log(products);
+let productTitle = products[0];
+let productPrice = products[1];
+let productVarnish = products[2];
+let productQuantity = products[3];
 
 document.querySelector("article").innerHTML += 
       `
-        <h4>Merci pour votre commande n°${data.orderID}XXXXXXXX ! </h4>
-        <p> ${productQuantity} ${productTitle}, option ${productVarnish} pour un total de ${productPrice * productQuantity} €. </p>
+        <h4>Merci pour votre commande n°{data.orderID}"XXXXXXXX ! </h4>
+        <p> d'un total de ${productPrice * productQuantity} €. </p>
         <p> Vos produits seront envoyés dés que possible. </p>
         <p> N'hésitez pas à nous contacter en cas de besoin ! </p>
       `

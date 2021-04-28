@@ -22,7 +22,7 @@
             <a class="nav-link" href="index.html">Accueil</a>
          </li>
          <li class="nav-item active">
-            <a class="nav-link" href="cart.html">Panier</a>
+            <a class="nav-link" href="cart.html" id="countItems">Panier</a>
          </li>
       </ul>
     </nav>
@@ -42,19 +42,19 @@
           <h3 class="text-center">Pour commander votre panier, merci de compléter le formulaire ci-dessous :</h3>
           <form action="thanksPage.html" method="post" class="text-center d-flex flex-column">
             <label for="lastName">
-              Nom : <input type="text" name="lastName" >
+              Nom : <input type="text" name="lastName" id="lastName" >
             </label>
             <label for="firstName">
-              Prénom : <input type="text" name="firstName" >
+              Prénom : <input type="text" name="firstName" id="firstName">
             </label>
             <label for="address">
-              Adresse : <input type="text" name="adress" >
+              Adresse : <input type="text" name="adress" id="adress">
             </label>
             <label for="city">
-              Ville : <input type="text" name="city" >
+              Ville : <input type="text" name="city" id="city">
             </label>
             <label for="email">
-              e-mail: <input type="text" name="email" >
+              e-mail: <input type="text" name="email" id="email">
             </label>
             <button type="submit" class="btn btn-primary" id="submitButton"> Valider ma commande </button>
           </form>

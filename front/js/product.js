@@ -10,10 +10,10 @@ let articleVarnish = 0;
 let articleQuantity = 0;
 
 //récupérer les infos panier dans le localStorage
-let cartProductData = [];
+let products = [];
 if (JSON.parse(localStorage.getItem("cartLists")) !== null )
 {
-  cartProductData = JSON.parse(localStorage.getItem("cartLists"));
+  products = JSON.parse(localStorage.getItem("cartLists"));
 }
 
 function getDataArray()//fonction appel des données serveur
@@ -62,7 +62,7 @@ getDataArray()//fonction appel des données serveur
       articleVarnish = document.getElementById("optionSelect").value;
       articleQuantity = document.getElementById("quantity").value;
 
-      //creation d'un objet objectProduct à ajouter dans l'array cartProductData
+      //creation d'un objet objectProduct à ajouter dans l'array products
       let objectProduct = 
       {
         img: articleImg,
@@ -72,8 +72,8 @@ getDataArray()//fonction appel des données serveur
         quantity: articleQuantity
       };
       //enregistrement de l'objet dans l'array, dans le localStorage
-      cartProductData.push(objectProduct);//ajoute l'objet objectProduct sélectionné dans l'array cartProductData
-      localStorage.setItem("cartLists", JSON.stringify(cartProductData));//enregistre le tableau cartProductData dans le localStorage
+      products.push(objectProduct);//ajoute l'objet objectProduct sélectionné dans l'array products
+      localStorage.setItem("cartLists", JSON.stringify(products));//enregistre le tableau products dans le localStorage
       alert("article ajouté");//affiche le bon fonctionnement de la fonction
     }
   })

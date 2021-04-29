@@ -56,19 +56,6 @@ function getDataArray()//fonction appel des données serveur -- je veux récupé
   })
 }
 
-function cartBilling()//fonction requete post
-{
-  fetch ("http://localhost:3000/api/furniture/order", 
-  {
-    method: "POST",
-    body: contact, products
-  })
-  getDataArray()//fonction appel des données serveur
-  .catch(function(error)//catch errors
-  {
-    alert(error);
-  })
-}
 
 function validationFormulaire(event)//fonction de vérification du formulaire, récupération et envoi des données contact et products au serveur
 {
@@ -82,6 +69,7 @@ function validationFormulaire(event)//fonction de vérification du formulaire, r
         element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
       }
     }
+    
     if(element.value == "")//annulation de l'envoi formulaire et alerte de la mauvaise complétion du champ
     {
       event.preventDefault();
@@ -89,7 +77,7 @@ function validationFormulaire(event)//fonction de vérification du formulaire, r
     }
     else//vérification du champ mail + validation du champ existant + récupération des données
     {
-      event.preventDefault();
+      //event.preventDefault();
 
       //test regex pour email :
       if (element.parentNode.getAttribute("for") === "email")//on vérifie que le label de l'input est "email"
@@ -116,7 +104,31 @@ function validationFormulaire(event)//fonction de vérification du formulaire, r
     }
   });
   console.log(contact);//test -- vérification de l'objet qui sera envoyé
-  cartBilling();
+
+  //Envoi des informations au serveur
+  let reqURL = "http://localhost:3000/api/furniture/order" ;
+  fetch (reqURL,
+  {
+    method: "POST",
+    body: JSON.stringify(
+    {
+      contact,
+      products
+    })
+  })
+  .then((response) => 
+  {
+    return response.json();
+  })
+  .then((data) =>
+  {
+    location.href = "thanksPage.html" ;
+  })
+  .catch(function(error)//catch errors
+  {
+    alert(error);
+  })
 }
 
-document.querySelector("form").addEventListener('submit', validationFormulaire) ;
+//document.querySelector("form").addEventListener('submit', validationFormulaire) ;
+document.getElementById("submitForm").addEventListener('submit', validationFormulaire) ;

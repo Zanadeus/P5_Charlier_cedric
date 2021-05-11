@@ -1,3 +1,14 @@
+//récupérer les infos panier dans le localStorage
+let products = ["5be9cc611c9d440000c1421e"];
+if (JSON.parse(localStorage.getItem("cartLists")) !== null )
+{
+  products = JSON.parse(localStorage.getItem("cartLists"));
+}
+console.log(products);
+//afficher le nombre d'éléments dans le panier sur barre de navigation
+document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
+document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
+
 let products = JSON.parse(localStorage.getItem("cartLists"));
 console.log(products);
 let productTitle = products[0];
@@ -14,4 +25,4 @@ document.querySelector("article").innerHTML +=
       `
     ;
 
-//localStorage.clear();
+localStorage.clear();

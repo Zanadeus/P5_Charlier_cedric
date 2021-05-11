@@ -1,5 +1,5 @@
 //récupérer les infos panier dans le localStorage
-let products = ["5be9cc611c9d440000c1421e","5be9cc611c9d440000c1421e"];
+let products = ["5be9cc611c9d440000c1421e"];
 /*
 if (JSON.parse(localStorage.getItem("cartLists")) !== null )
 {
@@ -46,9 +46,7 @@ else
 
 function validationFormulaire(event)//fonction de vérification du formulaire, récupération et envoi des données contact et products au serveur
 {
-  event.preventDefault();
-  let numberOfValidatedFormField = 0 ;
-  let numberOfFormField = 0
+  let validateField = 0 ;
   formInput.forEach(element => 
   {
     function badInput()
@@ -59,36 +57,38 @@ function validationFormulaire(event)//fonction de vérification du formulaire, r
         element.setAttribute("class", "border border-danger");//On met la bordure de l'input en rouge
       }
     }
-    numberOfFormField += 1;
+    
     //vérification d'un champ vide
     if(element.value == "")
     {
+      event.preventDefault();
       badInput();
       return;
     }
     //vérification du champ email
     if (element.parentNode.getAttribute("for") === "email")//on vérifie que le label de l'input est "email"
     {
+      console.log(/^.+[@]+.+[.]+[\w]+$/.test(element.value));//test -- vérification de la valeur obtenue
       if ((/^.+[@]+.+[.]+[\w]+$/.test(element.value)) === false)//si l'input ne correspond pas à la forme d'un email "a@b.c"
       {
+        event.preventDefault();
         badInput();
         return;
       }
     }
     //validation du champ
+    validateField += 1;
     if(element.parentNode.querySelector("p") != null)//On vérifie si le champ a déja été validé vide
     {
       element.parentNode.querySelector("p").remove();//On retire le texte demandant de vérifier le champ
     }
     element.setAttribute("class", "border border-success");//On met la bordure de couleur verte
-    numberOfValidatedFormField += 1;
     //récupération des données formulaire de contact
     contact[element.parentNode.getAttribute("for")] = element.value;
+    //ajouter fonction fetch
+    event.preventDefault();
   });
-  //vérification que tous les formulaires sont bien complétés
-  console.log(numberOfFormField);
-  console.log(numberOfValidatedFormField);
-  return numberOfValidatedFormField === numberOfFormField;
+  return validateField;
 }
 
   /*_________________________________Envoi des informations au serveur_________________________________*/
@@ -127,10 +127,14 @@ function postOrder()
 
 function submitData(event)
 {
-  if (validationFormulaire(event) === true)
+  //validationFormulaire(event);
+  console.log(validationFormulaire(event));
+  /*
+  if (validationFormulaire = 5)
   {
     postOrder();
   }
+  */
 }
 
-document.getElementById("submitForm").addEventListener('submit', submitData)
+document.getElementById("submitForm").addEventListener('submit', submitData) ;

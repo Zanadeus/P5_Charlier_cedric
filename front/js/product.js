@@ -1,3 +1,14 @@
+//récupérer les infos panier dans le localStorage
+let products = [];
+if (JSON.parse(localStorage.getItem("cartLists")) !== null )
+{
+  products = JSON.parse(localStorage.getItem("cartLists"));
+}
+console.log(products);
+//afficher le nombre d'éléments dans le panier sur barre de navigation
+document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
+document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
+
 //obtenir l'ID du produit dans l'URL de la page
 let urlActive = (new URL(document.location)).searchParams;//sélectionne l'url de la page
 let urlID = urlActive.get('id'); // dans l'url de la page, obtient la chaine de caractère après id=.
@@ -8,13 +19,6 @@ let articlePrice = 0;
 let articleImg = 0;
 let articleVarnish = 0;
 let articleQuantity = 0;
-
-//récupérer les infos panier dans le localStorage
-let products = [];
-if (JSON.parse(localStorage.getItem("cartLists")) !== null )
-{
-  products = JSON.parse(localStorage.getItem("cartLists"));
-}
 
 function getDataArray()//fonction appel des données serveur
 {

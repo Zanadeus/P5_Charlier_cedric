@@ -1,15 +1,30 @@
 //récupérer les infos panier dans le localStorage
-let products = ["5be9cc611c9d440000c1421e","5be9cc611c9d440000c1421e"];
-/*
-if (JSON.parse(localStorage.getItem("cartLists")) !== null )
+let cartStorage = [];
+let cartQuantity = 0;
+let products = [];
+if (localStorage.getItem("cartLists") !== null )
 {
-  products = JSON.parse(localStorage.getItem("cartLists"));
+  cartStorage = JSON.parse(localStorage.getItem("cartLists"));
+  cartStorage.forEach(element => 
+  {
+    products.push(element.ID);
+    cartQuantity += Number(element.quantity);
+  });
 }
-*/
-console.log(products);
+
 //afficher le nombre d'éléments dans le panier sur barre de navigation
-document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
+document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartQuantity}</sup>`);
 document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
+document.getElementById("countItems").addEventListener("mouseover", openCartNav());
+document.getElementById("countItems").addEventListener("mouseout", closeCartNav());
+function openCartNav()
+{
+  console.log("bonjour, je viens afficher le menu");
+}
+function closeCartNav()
+{
+  console.log("bonsoir, je viens fermer le menu");
+}
 
 //Déclaration des variables
 const formInput = document.querySelectorAll("input");//selection de tous les inputs a vérifier
@@ -17,13 +32,13 @@ const contact = {};//objet contact recevant les informations de contact
 let cartPrice = 0;
 
 //afficher les produits du panier + prix total panier
-if (products == null)
+if (cartStorage == null)
 {
   document.getElementById("panier").innerHTML += "<p>Votre panier est vide</p>"
 }
 else
 {
-  products.forEach(element => 
+  cartStorage.forEach(element => 
   {
     cartPrice = cartPrice + element.price * element.quantity;
     document.getElementById("panier").innerHTML += 
@@ -44,7 +59,7 @@ else
   document.getElementById("panier").insertAdjacentHTML("beforebegin",`<h4>Le prix total de votre panier est de ${cartPrice}€</h4>`)
 }
 
-function validationFormulaire(event)//fonction de vérification du formulaire, récupération et envoi des données contact et products au serveur
+function validationFormulaire(event)//fonction de vérification du formulaire, récupération et envoi des données contact et cartStorage au serveur
 {
   event.preventDefault();
   let numberOfValidatedFormField = 0 ;
@@ -116,8 +131,9 @@ function postOrder()
   })
   .then((data) =>
   {
-    //location.href = "thanksPage.html" ;
+    localStorage.setItem("validatedOrder", JSON.stringify(data));
     console.log(data);
+    location.href = "thanksPage.html" ;
   })
   .catch(function(error)//catch errors
   {

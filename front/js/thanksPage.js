@@ -1,25 +1,20 @@
 //récupérer les infos panier dans le localStorage
-let products = ["5be9cc611c9d440000c1421e"];
+let cartStorage = [];
 if (JSON.parse(localStorage.getItem("cartLists")) !== null )
 {
-  products = JSON.parse(localStorage.getItem("cartLists"));
+  cartStorage = JSON.parse(localStorage.getItem("cartLists"));
 }
-console.log(products);
+console.log(cartStorage);
 //afficher le nombre d'éléments dans le panier sur barre de navigation
-document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
+document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartStorage.length}</sup>`);
 document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
 
-let products = JSON.parse(localStorage.getItem("cartLists"));
-console.log(products);
-let productTitle = products[0];
-let productPrice = products[1];
-let productVarnish = products[2];
-let productQuantity = products[3];
+let validatedOrder = JSON.parse(localStorage.getItem("validatedOrder"));
+console.log(validatedOrder);
 
 document.querySelector("article").innerHTML += 
       `
-        <h4>Merci pour votre commande n°XXXXXXXX ! </h4>
-        <p> d'un total de ${productPrice * productQuantity} €. </p>
+        <h4>Merci pour votre commande n°${validatedOrder.orderId} ! </h4>
         <p> Vos produits seront envoyés dés que possible. </p>
         <p> N'hésitez pas à nous contacter en cas de besoin ! </p>
       `

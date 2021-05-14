@@ -1,12 +1,12 @@
 //récupérer les infos panier dans le localStorage
-let products = [];
+let cartStorage = [];
 if (JSON.parse(localStorage.getItem("cartLists")) !== null )
 {
-  products = JSON.parse(localStorage.getItem("cartLists"));
+  cartStorage = JSON.parse(localStorage.getItem("cartLists"));
 }
-console.log(products);
+console.log(cartStorage);
 //afficher le nombre d'éléments dans le panier sur barre de navigation
-document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
+document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartStorage.length}</sup>`);
 document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
 
 //obtenir l'ID du produit dans l'URL de la page
@@ -66,18 +66,19 @@ getDataArray()//fonction appel des données serveur
       articleVarnish = document.getElementById("optionSelect").value;
       articleQuantity = document.getElementById("quantity").value;
 
-      //creation d'un objet objectProduct à ajouter dans l'array products
+      //creation d'un objet objectProduct à ajouter dans l'array cartStorage
       let objectProduct = 
       {
         img: articleImg,
         productName: articleName,
         price: articlePrice,
         varnish: articleVarnish,
-        quantity: articleQuantity
+        quantity: articleQuantity,
+        ID: urlID
       };
       //enregistrement de l'objet dans l'array, dans le localStorage
-      products.push(objectProduct);//ajoute l'objet objectProduct sélectionné dans l'array products
-      localStorage.setItem("cartLists", JSON.stringify(products));//enregistre le tableau products dans le localStorage
+      cartStorage.push(objectProduct);//ajoute l'objet objectProduct sélectionné dans l'array cartStorage
+      localStorage.setItem("cartLists", JSON.stringify(cartStorage));//enregistre le tableau cartStorage dans le localStorage
       alert("article ajouté");//affiche le bon fonctionnement de la fonction
     }
   })

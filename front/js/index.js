@@ -1,12 +1,12 @@
 //récupérer les infos panier dans le localStorage
-let products = [];
+let cartStorage = [];
 if (JSON.parse(localStorage.getItem("cartLists")) !== null )
 {
-  products = JSON.parse(localStorage.getItem("cartLists"));
+  cartStorage = JSON.parse(localStorage.getItem("cartLists"));
 }
-console.log(products);
+console.log(cartStorage);
 //afficher le nombre d'éléments dans le panier sur barre de navigation
-document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${products.length}</sup>`);
+document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartStorage.length}</sup>`);
 document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
 
 function getDataArray()//fonction appel des données serveur
@@ -15,7 +15,6 @@ function getDataArray()//fonction appel des données serveur
   .then(function(httpBodyResponse)//puis lance la fonction suivante
   {
     const response = httpBodyResponse.json();//convertit le fichier en json (format array)
-    console.log(response);
     return response;//renvoie l'array en promise --> à retraiter avec then
   })
 }

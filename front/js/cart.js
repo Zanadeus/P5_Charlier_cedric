@@ -15,16 +15,6 @@ if (localStorage.getItem("cartLists") !== null )
 //afficher le nombre d'éléments dans le panier sur barre de navigation
 document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartQuantity}</sup>`);
 document.getElementById("countItems").querySelector("sup").style.backgroundColor = "brown";
-document.getElementById("countItems").addEventListener("mouseover", openCartNav());
-document.getElementById("countItems").addEventListener("mouseout", closeCartNav());
-function openCartNav()
-{
-  console.log("bonjour, je viens afficher le menu");
-}
-function closeCartNav()
-{
-  console.log("bonsoir, je viens fermer le menu");
-}
 
 //Déclaration des variables
 const formInput = document.querySelectorAll("input");//selection de tous les inputs a vérifier
@@ -150,3 +140,16 @@ function submitData(event)
 }
 
 document.getElementById("submitForm").addEventListener('submit', submitData)
+
+/*
+document.getElementById("countItems").addEventListener("mouseover", openCartNav());
+document.getElementById("countItems").addEventListener("mouseout", closeCartNav());
+function openCartNav()
+{
+  console.log("bonjour, je viens afficher le menu");
+}
+function closeCartNav()
+{
+  console.log("bonsoir, je viens fermer le menu");
+}
+*/

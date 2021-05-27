@@ -91,8 +91,6 @@ function validationFormulaire(event)//fonction de vérification du formulaire, r
     contact[element.parentNode.getAttribute("for")] = element.value;
   });
   //vérification que tous les formulaires sont bien complétés
-  console.log(numberOfFormField);
-  console.log(numberOfValidatedFormField);
   return numberOfValidatedFormField === numberOfFormField;
 }
 
@@ -116,13 +114,11 @@ function postOrder()
   })
   .then((response) => 
   {
-    console.log(response);
     return response.json();
   })
   .then((data) =>
   {
     localStorage.setItem("validatedOrder", JSON.stringify(data));
-    console.log(data);
     location.href = "thanksPage.html" ;
   })
   .catch(function(error)//catch errors
@@ -142,14 +138,16 @@ function submitData(event)
 document.getElementById("submitForm").addEventListener('submit', submitData)
 
 /*
-document.getElementById("countItems").addEventListener("mouseover", openCartNav());
-document.getElementById("countItems").addEventListener("mouseout", closeCartNav());
-function openCartNav()
+document.getElementById("countItems").onmouseover = document.getElementById("countItems").onmouseout = cartWindowOnOff;
+function cartWindowOnOff(event)
 {
-  console.log("bonjour, je viens afficher le menu");
-}
-function closeCartNav()
-{
-  console.log("bonsoir, je viens fermer le menu");
+  if (event.type == 'mouseover')
+  {
+    console.log("bonjour, je viens afficher le panier");
+  }
+  if (event.type == 'mouseout')
+  {
+    console.log("bonsoir, je viens fermer le panier");
+  }
 }
 */

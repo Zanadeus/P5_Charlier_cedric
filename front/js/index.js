@@ -20,6 +20,7 @@ function getDataArray()//fonction appel des données serveur
   .then(function(httpBodyResponse)//puis récupère la réponse en json (format array)
   {
     const response = httpBodyResponse.json();
+    console.log(response);
     return response;
   })
 }

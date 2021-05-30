@@ -9,8 +9,10 @@ if (localStorage.getItem("cartLists") !== null )
   {
     products.push(element.ID);
     cartQuantity += Number(element.quantity);
+    document.getElementById("submitForm").parentNode.className = "d-block";
   });
 }
+console.log(cartStorage);
 
 //afficher le nombre d'éléments dans le panier sur barre de navigation
 document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartQuantity}</sup>`);
@@ -22,7 +24,7 @@ const contact = {};//objet contact recevant les informations de contact
 let cartPrice = 0;
 
 //afficher les produits du panier + prix total panier
-if (cartStorage == null)
+if (cartStorage.length === 0)
 {
   document.getElementById("panier").innerHTML += "<p>Votre panier est vide</p>"
 }
@@ -97,6 +99,8 @@ function validationFormulaire(event)//fonction de vérification du formulaire, r
   /*_________________________________Envoi des informations au serveur_________________________________*/
 function postOrder()
 {
+  localStorage.setItem("totalCartPrice", cartPrice);//enregistre le tableau cartStorage dans le localStorage
+
   let reqURL = "http://localhost:3000/api/furniture/order" ;
   fetch (reqURL,
   {

@@ -1,14 +1,11 @@
 //récupérer les infos panier dans le localStorage
-let cartStorage = [];
 let cartQuantity = 0;
-if (localStorage.getItem("cartLists") !== null )
+let cartStorage = JSON.parse(localStorage.getItem("cartLists"));
+cartStorage.forEach(element => 
 {
-  cartStorage = JSON.parse(localStorage.getItem("cartLists"));
-  cartStorage.forEach(element => 
-  {
-    cartQuantity += Number(element.quantity);
-  });
-}
+  cartQuantity += Number(element.quantity);
+});
+let cartPrice = localStorage.getItem("totalCartPrice");
 
 //afficher le nombre d'éléments dans le panier sur barre de navigation
 document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartStorage.length}</sup>`);
@@ -19,8 +16,8 @@ console.log(validatedOrder);
 
 document.querySelector("article").innerHTML += 
       `
-        <h4>Merci pour votre commande n°${validatedOrder.orderId} ! </h4>
-        <p> Vos produits seront envoyés dés que possible. </p>
+        <h4>Votre commande n°${validatedOrder.orderId} d'un montant de ${cartPrice}€ a été enregistrée. </h4>
+        <p> Merci pour votre achat, vos produits seront envoyés dés que possible. </p>
         <p> N'hésitez pas à nous contacter en cas de besoin ! </p>
       `
     ;

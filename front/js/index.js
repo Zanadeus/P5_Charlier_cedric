@@ -28,6 +28,7 @@ function getDataArray()//fonction appel des données serveur
 getDataArray()//fonction appel des données serveur
 .then(function(response)//puis traite l'array
 {
+  console.log(response);
   response.forEach(product => 
   {
     document.querySelector("article").innerHTML += 

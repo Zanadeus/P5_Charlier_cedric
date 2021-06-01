@@ -12,7 +12,7 @@ if (localStorage.getItem("cartLists") !== null )
     document.getElementById("submitForm").parentNode.className = "d-block";
   });
 }
-console.log(cartStorage);
+console.log(products);
 
 //afficher le nombre d'éléments dans le panier sur barre de navigation
 document.getElementById("countItems").insertAdjacentHTML("beforeend",`<sup>${cartQuantity}</sup>`);

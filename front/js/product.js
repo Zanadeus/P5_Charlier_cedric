@@ -86,6 +86,7 @@ getDataArray()//fonction appel des données serveur
       localStorage.setItem("cartLists", JSON.stringify(cartStorage));//enregistre le tableau cartStorage dans le localStorage
       alert("article ajouté");//affiche le bon fonctionnement de la fonction
     }
+    console.log(objectProduct);
   })
   .catch(function(error)//catch errors
   {
